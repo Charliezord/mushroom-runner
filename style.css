@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400&family=Open+Sans:wght@300&display=swap');
+
+/* some 3d experiments I should not use but dont wanna throw away 
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-image: url(./images/k5ja_pdgw_180216.jpg); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.run-container {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    width: 40vw;
+    border: 1px solid blue;
+    perspective: 500px;
+}
+
+.run-container-persepctive {
+  height: 120vh;
+  width: 25vw;
+  border: 1px solid black;
+  transform-style: preserve-3d;
+  transform: rotateX(60deg);
+}
+
+*/
+
+
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+  }
+
+  /* general button styling */
+.button {
+    font-family: 'M PLUS Rounded 1c', sans-serif;;
+    font-size: 30px;
+    font-weight: 400;
+    background-color: #9B240A;
+    color: #fff;
+    padding: 20px 40px;
+    border: 0;
+    box-shadow: 5px 6px #6C1A08;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+
+/* intro screen */
+
+  .game-intro-container {
+    
+    position: absolute;
+    height: 40vh;
+    width: 45vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0, 0.7);
+    border-radius: 50px 50px 50px 50px / 25px 25px 25px 25px;
+    box-shadow:  6px 12px rgba(0,0,0, 0.9);;
+    border: 2px solid black;
+  }
+  
+  .game-intro-container p {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    padding: 0 20%;
+  }
+
+/* game over screen */
+
+  .game-end-container{
+    position: absolute;
+    height: 40vh;
+    width: 45vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0, 0.7);
+    border-radius: 50px 50px 50px 50px / 25px 25px 25px 25px;
+    box-shadow:  6px 12px rgba(0,0,0, 0.9);;
+   border: 2px solid black;
+   display: none; /* remove this line later when game functioning */
+  }
+  
+  .game-end-container p {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    padding: 0 20%;
+  }
+  
+  .game-end-container h1 {
+    color: white;
+    text-align: center;
+}
+
