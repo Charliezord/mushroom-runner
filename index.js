@@ -3,9 +3,6 @@ let windowWidht = window.innerWidth;
 let windowHeight =window.innerHeight;
 
 // CLASSES to still be created:
-
-// class PLAYER
-
 // BACKGROUND :
 // class ground 
 
@@ -87,6 +84,22 @@ class tree {
 }
 }
 
+class player {
+    constructor(playerX, playerY, playerWidht, playerHeigth){
+        this.playerX = playerX 
+        this.playerY = playerY
+        this.playerWidht = playerWidht
+        this.playerHeigth = playerHeigth
+    }
+
+    drawPlayer() {
+        rect(this.playerX, this.playerY, this.playerWidht, this.playerHeigth); // you're a square until I get an image for you
+        fill('green');
+      
+
+    }
+}
+
 
 // defining some objects that are gonna move on the screen
 let amanita1 = new amanita(1500, 100, 150, 180);
@@ -95,6 +108,7 @@ let rock1 = new rock(2300, 200, 350, 300);
 let treeMedium = new tree(50, 400, 1000, 1000);
 let treeLarge = new tree(50, 400, 1500, 1500);
 let treesmall = new tree(600, 100, 800, 800);
+let playerMustard = new player(1700, windowHeight -400, 300, 320);
 
 
 // making the objects actually appear & move
@@ -120,7 +134,19 @@ function draw (){
     treeMedium.drawtree();
     treeLarge.drawtree();
     treesmall.drawtree();
+    playerMustard.drawPlayer();
 }
+
+
+function keyPressed(){
+    if((keyIsPressed) && (keyCode === LEFT_ARROW)) {
+        playerMustard.playerX -= 100
+        console.log('hello from left key')
+    }
+    if((keyIsPressed) && (keyCode === RIGHT_ARROW) && !(this.playerX >= 420)) {
+        playerMustard.playerX += 100
+    }
+  }
 
 
 // start screen and end screen buttons
