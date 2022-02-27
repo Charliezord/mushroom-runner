@@ -1,13 +1,29 @@
 //globals
 let windowWidht = window.innerWidth;
-let windowHeight =window.innerHeight;
-
-// CLASSES to still be created:
-// BACKGROUND :
-// class ground 
-
+let windowHeight = window.innerHeight;
+let center = windowWidht / 2
 
 // classes
+/* potentioal refactoring for later, but figure out how to do the images then
+class mushroom {
+    constructor(mushroomX, mushroomY, mushroomWidht, mushroomHeigth){
+        this.mushroomX = mushroomX 
+        this.mushroomY = mushroomY
+        this.mushroomWidht = mushroomWidht
+        this.mushroomHeigth =mushroomHeigth
+    }
+
+    drawMushroom() {
+        image(mushroomImg, this.mushroomX, this.mushroomY, this.mushroomWidht, this.mushroomHeigth);
+      
+        this.mushroomY = this.mushroomY + 3;
+
+        if(this.mushroomY > windowHeight ){
+            this.mushroomY =- 0;
+    }
+}
+}*/
+
 class amanita {
     constructor(amanitaX, amanitaY, amanitaWidht, amanitaHeigth){
         this.amanitaX = amanitaX 
@@ -19,7 +35,7 @@ class amanita {
     drawAmanita() {
         image(amanitaImg, this.amanitaX, this.amanitaY, this.amanitaWidht, this.amanitaHeigth);
       
-        this.amanitaY = this.amanitaY + 3;
+        this.amanitaY = this.amanitaY + 7;
 
         if(this.amanitaY > windowHeight ){
             this.amanitaY =- 0;
@@ -93,41 +109,60 @@ class player {
     }
 
     drawPlayer() {
-        rect(this.playerX, this.playerY, this.playerWidht, this.playerHeigth); // you're a square until I get an image for you
-        fill('green');
-      
+        image(squirrelImg, this.playerX, this.playerY, this.playerWidht, this.playerHeigth); // you're a square until I get an image for you
+    }
+}
 
+class runningPath {
+    constructor(runningPathX, runningPathY, runningPathWidht, runningPathHeigth){
+        this.runningPathX = runningPathX 
+        this.runningPathY = runningPathY
+        this.runningPathWidht =runningPathWidht
+        this.runningPathHeigth = runningPathHeigth
+    }
+
+    drawRunningPath() {
+        rect(this.runningPathX, this.runningPathY, this.runningPathWidht, this.runningPathHeigth); // you're a square until I get an image for you
+        fill('#B77835');
+        stroke("#B77835")
     }
 }
 
 
 // defining some objects that are gonna move on the screen
-let amanita1 = new amanita(1500, 100, 150, 180);
+let amanita1 = new amanita(3000, 100, 150, 180);
 let bolete1 = new bolete(2000, 600, 200, 220);
 let rock1 = new rock(2300, 200, 350, 300);
 let treeMedium = new tree(50, 400, 1000, 1000);
 let treeLarge = new tree(50, 400, 1500, 1500);
 let treesmall = new tree(600, 100, 800, 800);
-let playerMustard = new player(1700, windowHeight -400, 300, 320);
+let playerMustard = new player(2500, windowHeight -500, 400, 400);
+let runningPath1 = new runningPath((center - 1250), 0, 2500, windowHeight);
 
 
 // making the objects actually appear & move
 function preload(){
-    bg = loadImage("../images/k5ja_pdgw_180216.jpg") // placeholder image until I get my own background items
+    //bg = loadImage("./images/background.png") // placeholder image until I get my own background items
     rockImg = loadImage("../images/rock.png")
     amanitaImg = loadImage("../images/amanita.png")
     boleteImg = loadImage("../images/bolete.png")
     treeImg = loadImage("../images/tree.png")
+    squirrelImg = loadImage("../images/squirrel.png")
   }
 
 
 function setup (){
+    //const canvas = 
     createCanvas(windowWidht, windowHeight);
+    //canvas.parent('run-container');
+    //createCanvas(windowWidht, windowHeight);
+    
     
 }
 
 function draw (){
-    background(bg);
+    background('#6C4408');
+    runningPath1.drawRunningPath();
     amanita1.drawAmanita();
     bolete1.drawBolete();
     rock1.drawRock();
@@ -137,14 +172,18 @@ function draw (){
     playerMustard.drawPlayer();
 }
 
-
 function keyPressed(){
-    if((keyIsPressed) && (keyCode === LEFT_ARROW)) {
+    if((keyIsPressed) && (keyCode === LEFT_ARROW) && (playerMustard.playerX >= center - 1230)) {
         playerMustard.playerX -= 100
-        console.log('hello from left key')
     }
-    if((keyIsPressed) && (keyCode === RIGHT_ARROW) && !(this.playerX >= 420)) {
+    if((keyIsPressed) && (keyCode === RIGHT_ARROW) && (playerMustard.playerX + playerMustard.playerWidht + 30 <= center + 1250)) {
         playerMustard.playerX += 100
+    }
+    if((keyIsPressed) && (keyCode === UP_ARROW) && (playerMustard.playerY >= 100)) {
+        playerMustard.playerY -= 100
+    }
+    if((keyIsPressed) && (keyCode === DOWN_ARROW) && (playerMustard.playerY + playerMustard.playerHeigth <= windowHeight - 60)) {
+        playerMustard.playerY += 100
     }
   }
 
