@@ -3,6 +3,11 @@ let windowWidht = window.innerWidth;
 let windowHeight = window.innerHeight;
 let center = windowWidht / 2
 
+//backlog, have screen blur when eating amanita and then you still have a chance to run on but it is harder
+
+treesLeft = [];
+treesRight = [];
+
 // classes
 /* potentioal refactoring for later, but figure out how to do the images then
 class mushroom {
@@ -38,7 +43,7 @@ class amanita {
         this.amanitaY = this.amanitaY + 7;
 
         if(this.amanitaY > windowHeight ){
-            this.amanitaY =- 0;
+            this.amanitaY =- 1000;
     }
 }
 }
@@ -57,7 +62,7 @@ class bolete {
         this.boleteY = this.boleteY + 3;
 
         if(this.boleteY > windowHeight ){
-            this.boleteY =- 0;
+            this.boleteY =- 1000;
     }
 }
 }
@@ -76,7 +81,7 @@ class rock {
         this.rockY = this.rockY + 3;
 
         if(this.rockY > windowHeight ){
-            this.rockY =- 0;
+            this.rockY =- 1000;
     }
 }
 }
@@ -92,10 +97,10 @@ class tree {
     drawtree() {
         image(treeImg, this.treeX, this.treeY, this.treeWidht, this.treeHeigth);
       
-        this.treeY = this.treeY + 3;
+        this.treeY = this.treeY + 5;
 
         if(this.treeY > windowHeight ){
-            this.treeY =- 0;
+            this.treeY  =- 500;
     }
 }
 }
@@ -124,19 +129,19 @@ class runningPath {
     drawRunningPath() {
         rect(this.runningPathX, this.runningPathY, this.runningPathWidht, this.runningPathHeigth); // you're a square until I get an image for you
         fill('#B77835');
-        stroke("#B77835")
+        stroke("#B77835");
     }
 }
 
 
 // defining some objects that are gonna move on the screen
-let amanita1 = new amanita(3000, 100, 150, 180);
-let bolete1 = new bolete(2000, 600, 200, 220);
-let rock1 = new rock(2300, 200, 350, 300);
+let amanita1 = new amanita(center - 1000, 100, 150, 180);
+let bolete1 = new bolete(center + 700, 600, 200, 220);
+let rock1 = new rock(center + 200, 200, 350, 300);
 let treeMedium = new tree(50, 400, 1000, 1000);
 let treeLarge = new tree(50, 400, 1500, 1500);
 let treesmall = new tree(600, 100, 800, 800);
-let playerMustard = new player(2500, windowHeight -500, 400, 400);
+let playerMustard = new player(center - 200, windowHeight -500, 400, 400);
 let runningPath1 = new runningPath((center - 1250), 0, 2500, windowHeight);
 
 
@@ -152,13 +157,45 @@ function preload(){
 
 
 function setup (){
-    //const canvas = 
     createCanvas(windowWidht, windowHeight);
-    //canvas.parent('run-container');
-    //createCanvas(windowWidht, windowHeight);
-    
-    
+ 
+    for(let i = 0; i < 6 ; i++){
+            treeLeftY = random(windowHeight);
+            treeLeftX = random(center - 1600);
+        //10 + 200 * i;
+       
+       // 40 + 100 * i;
+       treesLeft[i] = new tree(treeLeftX, treeLeftY, 400, 800);
+    }
+
+    for(let j = 0; j < 6 ; j++){
+        treeRightY = random(windowHeight);
+        treeRightX = (center + 1300) + 300 * j;
+    //10 + 200 * i;
+   
+   
+   treesRight[j] = new tree(treeRightX, treeRightY, 400, 800);
 }
+
+}
+
+/* a mess
+    //let overlapping = false;
+    //for(let j = 0; j <trees.length; i ++){
+       // let newTreeObj = trees[j];
+        //let distance = dist(treeArrayX, treeArrayY, newTreeObj.x, newTreeObj.y);
+        //if(distance < circle.r + newTreeObj){
+          //  overlapping = true;
+            //break;
+   //     }
+   // }
+    
+  //  if(!overlapping){
+    //    trees.push(tree);
+    //}
+
+//}
+*/
 
 function draw (){
     background('#6C4408');
@@ -166,9 +203,18 @@ function draw (){
     amanita1.drawAmanita();
     bolete1.drawBolete();
     rock1.drawRock();
-    treeMedium.drawtree();
-    treeLarge.drawtree();
-    treesmall.drawtree();
+
+    for(let i = 0; i < treesLeft.length; i++){
+    treesLeft[i].drawtree();
+    }
+    for(let j = 0; j < treesRight.length; j++){
+    treesRight[j].drawtree();
+    }
+
+
+    //treeMedium.drawtree();
+    //treeLarge.drawtree();
+    //treesmall.drawtree();
     playerMustard.drawPlayer();
 }
 
