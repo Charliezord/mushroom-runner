@@ -70,7 +70,7 @@ body {
     border-radius: 50px 50px 50px 50px / 25px 25px 25px 25px;
     box-shadow:  6px 12px rgba(0,0,0, 0.9);;
     border: 2px solid black;
-    display: none; /* remove this line later when game functioning */
+    display: none; /*  remove this line later when game functioning */
   }
   
   .game-intro-container p {
