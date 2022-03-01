@@ -3,8 +3,11 @@
 //globals
 let windowWidht = window.innerWidth;
 let windowHeight = window.innerHeight;
-let center = windowWidht / 2;
+let myCenter = windowWidht / 2;
 let twentyPer = windowWidht * 0.2;
+
+let scoreElem = document.querySelector('#score');
+let score = 0;
 
 treesLeft = [];
 treesRight = [];
@@ -47,7 +50,7 @@ class amanita {
         this.amanitaY = this.amanitaY + 3;
 
         if(this.amanitaY > windowHeight ){
-            this.amanitaY =- 200;
+            this.amanitaY =- 500;
         }
     }
 
@@ -67,7 +70,7 @@ class bolete {
         this.boleteY = this.boleteY + 3;
 
         if(this.boleteY > windowHeight ){
-            this.boleteY =- 200;
+            this.boleteY =- 500;
     }
 }
 }
@@ -119,7 +122,7 @@ class player {
     }
 
     drawPlayer() {
-        image(squirrelImg, this.playerX, this.playerY, this.playerWidht, this.playerHeigth); // you're a square until I get an image for you
+        image(squirrelImg, this.playerX, this.playerY, this.playerWidht, this.playerHeigth);
     }
 }
 
@@ -135,20 +138,14 @@ class runningPath {
         rect(this.runningPathX, this.runningPathY, this.runningPathWidht, this.runningPathHeigth); 
         fill('#B77835');
         stroke("#B77835");
+        console.log('hellofrompath')
     }
 }
 
 // calling some instances of classes
-let playerMustard = new player(center - 20, windowHeight -90, 70, 80);
-let runningPath1 = new runningPath((center - twentyPer), 0, twentyPer * 2, windowHeight);
+let runningPath1 = new runningPath((myCenter - twentyPer), 0, twentyPer * 2, windowHeight);
+let playerMustard = new player(myCenter - 20, windowHeight -90, 70, 80);
 
-/* old classes , remove later , keep for now for references
-let amanita1 = new amanita(center - 1000, 100, 150, 180);
-let bolete1 = new bolete(center + 700, 600, 200, 220);
-let treeMedium = new tree(50, 400, 1000, 1000);
-let treeLarge = new tree(50, 400, 1500, 1500);
-let treesmall = new tree(600, 100, 800, 800);
-*/
 
 // all images
 function preload(){
@@ -163,22 +160,20 @@ function preload(){
 //setup: looping the trees, the mushrooms, and the rocks down the screen
 function setup (){
     createCanvas(windowWidht, windowHeight);
+   
  // loopdieloop the trees
     for(let i = 0; i < 10 ; i++){
 
         //it's looping the same random pattern over & over, change later?
             treeLeftY = random(windowHeight);
-            //10 + 500 * i;
-            treeLeftX = random(0, windowWidht * 0.20);
-             //40 + 100 * i;
+            treeLeftX = random(0, windowWidht * 0.20);   
 
        treesLeft[i] = new tree(treeLeftX, treeLeftY, 70, 140);
     }
 
     for(let j = 0; j < 10 ; j++){
         treeRightY = random(windowHeight);
-        treeRightX = random(center + twentyPer, windowWidht);
-        //(center + 1300) + 300 * j;
+        treeRightX = random(myCenter + twentyPer, windowWidht);
         
         treesRight[j] = new tree(treeRightX, treeRightY, 70, 140);
     }
@@ -197,7 +192,7 @@ function setup (){
       }
 
     // loopdielopp the rocks
-    for(let r = 0; r < 5 ; r++){
+    for(let r = 0; r < 4 ; r++){
         rockArrayY = random(windowHeight);
         rockArrayX = random(runningPath1.runningPathX, runningPath1.runningPathWidht * 1.5);
         rockArray[r] = new rock(rockArrayX, -rockArrayY, 65, 60);
@@ -225,22 +220,19 @@ function setup (){
 
 // drawing stuff
 function draw (){
+// the basics
     background('#6C4408');
-    runningPath1.drawRunningPath();
+    runningPath1.drawRunningPath(); 
+    playerMustard.drawPlayer();
+    
 
 // drawing the amanita and collision statement
     for(let k = 0; k < amanitaArray.length; k++){
         amanitaArray[k].drawAmanita();
         let currentAmanita = amanitaArray[k]
-
-     /*   if(amanitaArray.amanitaArrayY < playerMustard.playerX + playerMustard.playerWidht 
-            && amanitaArrayX + amanitaArrayX.amanitaWidht > playerMustard.playerX 
-            && amanitaArrayY < playerMustard.playerY + playerMustard.playerHeigth 
-            && amanitaArrayY + amanitaArrayY.amanitaWidht > playerMustard.playerY ){
-                console.log('collide')
-           }     */    
      
         if(currentAmanita.amanitaY + 30 >= playerMustard.playerY 
+            && currentAmanita.amanitaY + 30 <= playerMustard.playerY + 80
          && playerMustard.playerX <= currentAmanita.amanitaX + 25 
          && playerMustard.playerX + 70 >= currentAmanita.amanitaX
          ){
@@ -256,12 +248,14 @@ function draw (){
         let currentBolete = boleteArray[z]
 
         if(currentBolete.boleteY + 30 >= playerMustard.playerY 
+            && currentBolete.boleteY + 30 <= playerMustard.playerY + 80
             && playerMustard.playerX <= currentBolete.boleteX + 25 
             && playerMustard.playerX + 70 >= currentBolete.boleteX
             ){
-               currentBolete.boleteY = -1000
-               // define  --> score ++ 
-               console.log('touching bolete')
+               currentBolete.boleteY = -1000;
+               score ++;
+                scoreElem.innerText = score;
+               console.log('touching bolete');
         }
     }
 
@@ -270,12 +264,13 @@ function draw (){
         rockArray[r].drawRock();
         let currentRock = rockArray[r]
 
-        if(currentRock.rockY + 30 >= playerMustard.playerY 
-            && playerMustard.playerX <= currentRock.rockX + 25 
+        if(currentRock.rockY + 60 >= playerMustard.playerY 
+            && currentRock.rockY + 60 <= playerMustard.playerY + 80
+            && playerMustard.playerX <= currentRock.rockX + 65 
             && playerMustard.playerX + 70 >= currentRock.rockX
             ){
-               gameOverScreen
-               // define  --> score ++ 
+                currentRock.rockY = -1000
+                //endscreen
                console.log('touching rock')
         }
     }
@@ -287,20 +282,16 @@ function draw (){
     for(let j = 0; j < treesRight.length; j++){
     treesRight[j].drawtree();
     }
-
-// drawing the player - a squirrel called mustard
-    playerMustard.drawPlayer();
-
-
+   
 }
 
 
 //making Mustard move
 function keyPressed(){
-    if((keyIsPressed) && (keyCode === LEFT_ARROW) && (playerMustard.playerX - 30 >= center - twentyPer)) {
+    if((keyIsPressed) && (keyCode === LEFT_ARROW) && (playerMustard.playerX >= myCenter - twentyPer)) {
         playerMustard.playerX -= 20
     }
-    if((keyIsPressed) && (keyCode === RIGHT_ARROW) && (playerMustard.playerX + playerMustard.playerWidht + 30 <= center + twentyPer)) {
+    if((keyIsPressed) && (keyCode === RIGHT_ARROW) && (playerMustard.playerX + playerMustard.playerWidht <= myCenter + twentyPer)) {
         playerMustard.playerX += 20
     }
     if((keyIsPressed) && (keyCode === UP_ARROW) && (playerMustard.playerY >= 100)) {
@@ -313,6 +304,7 @@ function keyPressed(){
 
 
 // start screen and end screen buttons
+
 window.addEventListener("load", () => {
     noLoop();
     document.getElementById('start-button').onclick = () => {
@@ -327,6 +319,8 @@ window.addEventListener("load", () => {
     function startGame (){
     const splashScreen = document.querySelector('.game-intro-container');
       splashScreen.style.display = 'none'
+      const gameScreen = document.querySelector('.game-container');
+      gameScreen.style.display = 'none'
     const gameOverScreen = document.querySelector('.game-end-container');
         gameOverScreen.style.display = 'none'
       };

@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Mushroom Runner</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-
-
-    <div class="game-intro-container">
-        <button id="start-button" class="button" >Start Game</button>
-        <p>Use the left and right arrow to control Mustard the squirrel. <br> Eat the mushrooms, but watch out for poisonous red ones and rocks on the road!</p>
+    <div class="game-screen">
+       
+      <div class="game-intro-container">
+        <button id="start-button" class="button">Start Game</button>
+        <p>
+          Use the left and right arrow to control Mustard the squirrel. <br />
+          Eat the mushrooms, but watch out for poisonous red ones and rocks on
+          the road!
+        </p>
       </div>
 
-        <div id="run-container"></div>
+      <div class="game-container">
+        <div class="path"></div>
+      </div>
 
       <div class="game-end-container">
         <h1>GAME OVER</h1>
-        <p>Oh no you died!</p> 
+        <p>Oh no you died!</p>
         <button id="restart-button" class="button">Restart</button>
       </div>
+    </div>
 
+    <div id="score-container">
+        <p>Score: <span id="score"></span></p>
+      </div>
 
-	<script src="index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+    
+      <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+      <script src="index.js"></script>
     
 
-
-<!--
+    <!--
    <footer class="footer">
     <a href='https://pngtree.com/so/Green'>Green png from pngtree.com/</a>
     <a href='https://pngtree.com/so/Cartoon'>Cartoon png from pngtree.com/</a>
@@ -37,4 +47,3 @@
 -->
   </body>
 </html>
-
