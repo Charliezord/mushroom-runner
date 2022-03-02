@@ -1,5 +1,3 @@
-//backlog, have screen blur when eating amanita and then you still have a chance to run on but it is harder
-
 //globals
 let windowwidth = window.innerWidth;
 let windowHeight = window.innerHeight;
@@ -7,6 +5,8 @@ let myCenter = windowwidth / 2;
 let twentyPer = windowwidth * 0.2;
 let gameIsOver = false;
 let hitAmanita = false;
+let speed = 3;
+let mustardSpeed = 30;
 
 const splashScreen = document.querySelector('.game-intro-container');
 const gamePlayScreen = document.querySelector('.play-container');
@@ -55,10 +55,10 @@ class amanita {
     drawAmanita() {
         image(amanitaImg, this.amanitaX, this.amanitaY, this.amanitawidth, this.amanitaHeigth);
       
-        this.amanitaY = this.amanitaY + 3;
+        this.amanitaY = this.amanitaY + speed;
 
         if(this.amanitaY > windowHeight ){
-            this.amanitaY =- 500;
+            this.amanitaY =- 200;
         }
     }
 
@@ -75,10 +75,10 @@ class bolete {
     drawBolete() {
         image(boleteImg, this.boleteX, this.boleteY, this.boletewidth, this.boleteHeigth);
       
-        this.boleteY = this.boleteY + 3;
+        this.boleteY = this.boleteY + speed;
 
         if(this.boleteY > windowHeight ){
-            this.boleteY =- 500;
+            this.boleteY =- 200;
     }
 }
 }
@@ -94,10 +94,10 @@ class rock {
     drawRock() {
         image(rockImg, this.rockX, this.rockY, this.rockwidth, this.rockHeigth);
       
-        this.rockY = this.rockY + 3;
+        this.rockY = this.rockY + speed;
 
         if(this.rockY > windowHeight ){
-            this.rockY =- 1000;
+            this.rockY =- 200;
     }
 }
 }
@@ -113,7 +113,7 @@ class tree {
     drawtree() {
         image(treeImg, this.treeX, this.treeY, this.treewidth, this.treeHeigth);
       
-        this.treeY = this.treeY + 3;
+        this.treeY = this.treeY + speed;
 
         if(this.treeY > windowHeight ){
             this.treeY  =- 150;
@@ -240,7 +240,10 @@ function draw (){
          && playerMustard.playerX + 70 >= currentAmanita.amanitaX
          ){
             currentAmanita.amanitaY = -1000
-            // hitAmanita = true;
+            mustardSpeed = 10;
+            // score --;
+            // scoreElem.innerText = score;
+            hitAmanita = true;
         }
     }
 
@@ -257,6 +260,19 @@ function draw (){
                currentBolete.boleteY = -1000;
                score ++;
                scoreElem.innerText = score;
+               if(score >= 5 && score <= 10){
+                   speed = 4;
+               }
+               else if(score >= 11 && score >= 15){
+                   speed = 5;
+               }
+               else if(score >= 16 && score >= 20){
+                speed = 7;
+            }
+                else if(score >= 21 && score >= 25){
+                speed = 9;
+            }
+            mustardSpeed = 30;
         }
     }
 
@@ -282,14 +298,13 @@ function draw (){
     treesRight[j].drawtree();
     }
    
-
     if (gameIsOver){
         gameOver();
     }
 
- //   if(hitAmanita){
- //       blurScreen();
- ///   }
+   if(hitAmanita){
+       blurScreen();
+    }
 
 }
 
@@ -297,33 +312,32 @@ function draw (){
 //making Mustard move
 function keyPressed(){
     if((keyIsPressed) && (keyCode === LEFT_ARROW) && (playerMustard.playerX >= myCenter - twentyPer)) {
-        playerMustard.playerX -= 20
+        playerMustard.playerX -= mustardSpeed
     }
     if((keyIsPressed) && (keyCode === RIGHT_ARROW) && (playerMustard.playerX + playerMustard.playerwidth <= myCenter + twentyPer)) {
-        playerMustard.playerX += 20
+        playerMustard.playerX += mustardSpeed
     }
     if((keyIsPressed) && (keyCode === UP_ARROW) && (playerMustard.playerY >= 100)) {
-        playerMustard.playerY -= 20
+        playerMustard.playerY -= mustardSpeed
     }
     if((keyIsPressed) && (keyCode === DOWN_ARROW) && (playerMustard.playerY + playerMustard.playerHeigth + 40 <= windowHeight)) {
-        playerMustard.playerY += 20
+        playerMustard.playerY += mustardSpeed
     }
   }
 
 
 function gameOver(){
+    console.log('game over')
     splashScreen.style.display = 'none';
     gamePlayScreen.style.display = 'none';
     gameOverScreen.style.display = 'flex';
     highScore.innerText = score;
     noLoop();
   };
-
-
-
-//   function blurScreen(){
-    
-//   };
+ 
+  function blurScreen(){ 
+    filter(GRAY);
+  };
 
 
 // start screen and end screen buttons
@@ -341,7 +355,7 @@ window.addEventListener("load", () => {
     document.getElementById("restart-button").onclick = () => {
         startGame();
         gameIsOver = false;
-
+        speed = 3;
         playerMustard = new player(myCenter - 20, windowHeight -90, 70, 80);
 
         for(let k = 0; k < 3 ; k++){
@@ -361,7 +375,6 @@ window.addEventListener("load", () => {
             rockArrayY = random(windowHeight);
             rockArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
             rockArray[r] = new rock(rockArrayX, -rockArrayY, 65, 60);
-    
         }
        
         score = 0;
