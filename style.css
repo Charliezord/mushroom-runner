@@ -34,8 +34,8 @@ body {
 body {
     margin: 0;
     font-family: 'M PLUS Rounded 1c', sans-serif;
-    display: flex;
-    justify-content: flex-end;
+    /* display: flex;
+    justify-content: flex-end; */
 }
 
 .game-screen{
@@ -60,6 +60,7 @@ body {
     border-radius: 5px;
     margin-bottom: 20px;
     cursor: pointer;
+    margin-top: 20px;
   }
 
 
@@ -117,8 +118,6 @@ body {
     color: white;
     text-align: left;
 }
-
-
 
 /* game over screen */
 
