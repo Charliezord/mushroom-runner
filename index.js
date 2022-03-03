@@ -5,8 +5,10 @@ let myCenter = windowwidth / 2;
 let twentyPer = windowwidth * 0.2;
 let gameIsOver = false;
 let hitAmanita = false;
-let speed = 3;
+let speedObjects = 3;
 let mustardSpeed = 30;
+let song;
+let amanitaWarning;
 
 const splashScreen = document.querySelector('.game-intro-container');
 const gamePlayScreen = document.querySelector('.play-container');
@@ -55,7 +57,7 @@ class amanita {
     drawAmanita() {
         image(amanitaImg, this.amanitaX, this.amanitaY, this.amanitawidth, this.amanitaHeigth);
       
-        this.amanitaY = this.amanitaY + speed;
+        this.amanitaY = this.amanitaY + speedObjects;
 
         if(this.amanitaY > windowHeight ){
             this.amanitaY =- 200;
@@ -75,7 +77,7 @@ class bolete {
     drawBolete() {
         image(boleteImg, this.boleteX, this.boleteY, this.boletewidth, this.boleteHeigth);
       
-        this.boleteY = this.boleteY + speed;
+        this.boleteY = this.boleteY + speedObjects;
 
         if(this.boleteY > windowHeight ){
             this.boleteY =- 200;
@@ -94,7 +96,7 @@ class rock {
     drawRock() {
         image(rockImg, this.rockX, this.rockY, this.rockwidth, this.rockHeigth);
       
-        this.rockY = this.rockY + speed;
+        this.rockY = this.rockY + speedObjects;
 
         if(this.rockY > windowHeight ){
             this.rockY =- 200;
@@ -113,7 +115,7 @@ class tree {
     drawtree() {
         image(treeImg, this.treeX, this.treeY, this.treewidth, this.treeHeigth);
       
-        this.treeY = this.treeY + speed;
+        this.treeY = this.treeY + speedObjects;
 
         if(this.treeY > windowHeight ){
             this.treeY  =- 150;
@@ -156,6 +158,7 @@ let playerMustard = new player(myCenter - 20, windowHeight -90, 70, 80);
 
 // all images
 function preload(){
+    // song = loadSound("../mushroom-runner/sounds/TG7A2DV-fun-walking.mp3")
     rockImg = loadImage("../images/rock.png")
     amanitaImg = loadImage("../images/amanita.png")
     boleteImg = loadImage("../images/bolete.png")
@@ -166,6 +169,8 @@ function preload(){
 //setup: looping the trees, the mushrooms, and the rocks down the screen
 function setup (){
     createCanvas(windowwidth, windowHeight);
+    // song.play();
+
  // loopdieloop the trees
     for(let i = 0; i < 10 ; i++){
 
@@ -182,25 +187,28 @@ function setup (){
     }
 
     //loopdieloop the shrooms
-    for(let k = 0; k < 3 ; k++){
+    for(let k = 0; k < 8 ; k++){
         amanitaArrayY= random(windowHeight);
         amanitaArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
         amanitaArray[k] = new amanita(amanitaArrayX, -amanitaArrayY, 25, 30);
       }
 
-    for(let z = 0; z < 5 ; z++){
+    for(let z = 0; z < 8 ; z++){
         boleteArrayY = random(windowHeight);
         boleteArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
         boleteArray[z] = new bolete(boleteArrayX, -boleteArrayY, 25, 30);
       }
 
     // loopdielopp the rocks
-    for(let r = 0; r < 4 ; r++){
+    for(let r = 0; r < 5 ; r++){
         rockArrayY = random(windowHeight);
         rockArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
         rockArray[r] = new rock(rockArrayX, -rockArrayY, 65, 60);
 
     }
+
+   
+
 }
 
 /* a mess
@@ -261,18 +269,19 @@ function draw (){
                score ++;
                scoreElem.innerText = score;
                if(score >= 5 && score <= 10){
-                   speed = 4;
+                speedObjects = 4;
                }
                else if(score >= 11 && score >= 15){
-                   speed = 5;
+                speedObjects = 5;
                }
                else if(score >= 16 && score >= 20){
-                speed = 7;
+                speedObjects = 7;
             }
                 else if(score >= 21 && score >= 25){
-                speed = 9;
+                    speedObjects = 9;
             }
             mustardSpeed = 30;
+            hitAmanita = false;
         }
     }
 
@@ -287,6 +296,7 @@ function draw (){
             && playerMustard.playerX + 70 >= currentRock.rockX
             ){
                 gameIsOver = true;
+                hitAmanita = false;
         }
     }
 
@@ -304,6 +314,9 @@ function draw (){
 
    if(hitAmanita){
        blurScreen();
+       textSize(25);
+       fill(255)
+       text("Oh no, you've hit an Amanita. Quick! Eat a Bolete", 500, 30)
     }
 
 }
@@ -336,8 +349,10 @@ function gameOver(){
   };
  
   function blurScreen(){ 
-    filter(GRAY);
-  };
+        noStroke();
+        fill(random(50, 255), random(50, 150), random(50, 255), 80);
+        circle(random(windowHeight), random(windowWidth), 5000);
+    }
 
 
 // start screen and end screen buttons
@@ -355,23 +370,23 @@ window.addEventListener("load", () => {
     document.getElementById("restart-button").onclick = () => {
         startGame();
         gameIsOver = false;
-        speed = 3;
+        speedObjects = 3;
         playerMustard = new player(myCenter - 20, windowHeight -90, 70, 80);
 
-        for(let k = 0; k < 3 ; k++){
+        for(let k = 0; k < 8 ; k++){
             amanitaArrayY= random(windowHeight);
             amanitaArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
             amanitaArray[k] = new amanita(amanitaArrayX, -amanitaArrayY, 25, 30);
           }
     
-        for(let z = 0; z < 5 ; z++){
+        for(let z = 0; z < 8 ; z++){
             boleteArrayY = random(windowHeight);
             boleteArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
             boleteArray[z] = new bolete(boleteArrayX, -boleteArrayY, 25, 30);
           }
     
         // loopdielopp the rocks
-        for(let r = 0; r < 4 ; r++){
+        for(let r = 0; r < 5 ; r++){
             rockArrayY = random(windowHeight);
             rockArrayX = random(runningPath1.runningPathX, runningPath1.runningPathwidth * 1.5);
             rockArray[r] = new rock(rockArrayX, -rockArrayY, 65, 60);
@@ -387,6 +402,7 @@ window.addEventListener("load", () => {
       splashScreen.style.display = 'none';
       gamePlayScreen.style.display = 'flex';
         gameOverScreen.style.display = 'none';
+        
       };
 
 
