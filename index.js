@@ -7,7 +7,8 @@ let gameIsOver = false;
 let hitAmanita = false;
 let speedObjects = 3;
 let mustardSpeed = 30;
-let song;
+let song = new Audio("./sounds/TG7A2DV-fun-walking.mp3")
+song.volume = .3
 let amanitaWarning;
 
 const splashScreen = document.querySelector('.game-intro-container');
@@ -158,7 +159,6 @@ let playerMustard = new player(myCenter - 20, windowHeight -90, 70, 80);
 
 // all images
 function preload(){
-    // song = loadSound("../mushroom-runner/sounds/TG7A2DV-fun-walking.mp3")
     rockImg = loadImage("../images/rock.png")
     amanitaImg = loadImage("../images/amanita.png")
     boleteImg = loadImage("../images/bolete.png")
@@ -169,7 +169,6 @@ function preload(){
 //setup: looping the trees, the mushrooms, and the rocks down the screen
 function setup (){
     createCanvas(windowwidth, windowHeight);
-    // song.play();
 
  // loopdieloop the trees
     for(let i = 0; i < 10 ; i++){
@@ -314,9 +313,9 @@ function draw (){
 
    if(hitAmanita){
        blurScreen();
-       textSize(25);
-       fill(255)
-       text("Oh no, you've hit an Amanita. Quick! Eat a Bolete", 500, 30)
+    //    textSize(25);
+    //    fill(255)
+    //    text("Oh no, you've hit an Amanita. Quick! Eat a Bolete", myCenter - 250, 30)
     }
 
 }
@@ -345,6 +344,7 @@ function gameOver(){
     gamePlayScreen.style.display = 'none';
     gameOverScreen.style.display = 'flex';
     highScore.innerText = score;
+    song.pause();
     noLoop();
   };
  
@@ -402,7 +402,7 @@ window.addEventListener("load", () => {
       splashScreen.style.display = 'none';
       gamePlayScreen.style.display = 'flex';
         gameOverScreen.style.display = 'none';
-        
+        song.play();
       };
 
 
