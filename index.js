@@ -9,7 +9,11 @@ let speedObjects = 3;
 let mustardSpeed = 30;
 let song = new Audio("sounds/TG7A2DV-fun-walking.mp3")
 song.volume = .3
-let amanitaWarning;
+let eatingSound = new Audio("sounds/zapsplat_cartoon_bite_munch_003_13094.mp3")
+eatingSound.volume = .4
+let ohNoSound = new Audio("sounds/cartoon_character_high_pitched_voice_says_oh_no.mp3")
+eatingSound.volume = .4
+let loseSound = new Audio("sounds/zapsplat_multimedia_game_lose_negative_001.mp3")
 
 const splashScreen = document.querySelector('.game-intro-container');
 const gamePlayScreen = document.querySelector('.play-container');
@@ -205,9 +209,6 @@ function setup (){
         rockArray[r] = new rock(rockArrayX, -rockArrayY, 65, 60);
 
     }
-
-   
-
 }
 
 /* a mess
@@ -251,6 +252,7 @@ function draw (){
             // score --;
             // scoreElem.innerText = score;
             hitAmanita = true;
+            ohNoSound.play();
         }
     }
 
@@ -270,17 +272,18 @@ function draw (){
                if(score >= 5 && score <= 10){
                 speedObjects = 4;
                }
-               else if(score >= 11 && score >= 15){
+               else if(score >= 11 && score <= 15){
                 speedObjects = 5;
                }
-               else if(score >= 16 && score >= 20){
+               else if(score >= 16 && score <= 20){
                 speedObjects = 7;
             }
-                else if(score >= 21 && score >= 25){
+                else if(score >= 21 && score <= 25){
                     speedObjects = 9;
             }
             mustardSpeed = 30;
             hitAmanita = false;
+            eatingSound.play();
         }
     }
 
@@ -296,6 +299,7 @@ function draw (){
             ){
                 gameIsOver = true;
                 hitAmanita = false;
+                loseSound.play();
         }
     }
 
