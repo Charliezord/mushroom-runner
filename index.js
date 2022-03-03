@@ -313,9 +313,9 @@ function draw (){
 
    if(hitAmanita){
        blurScreen();
-    //    textSize(25);
-    //    fill(255)
-    //    text("Oh no, you've hit an Amanita. Quick! Eat a Bolete", myCenter - 250, 30)
+       textSize(25);
+       fill(255)
+       text("Oh no, you've hit an Amanita. Quick! Eat a Bolete", myCenter - 250, 30)
     }
 
 }
