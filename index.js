@@ -1,4 +1,4 @@
-//globals
+// globals
 let windowwidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 let myCenter = windowwidth / 2;
@@ -7,8 +7,10 @@ let gameIsOver = false;
 let hitAmanita = false;
 let speedObjects = 3;
 let mustardSpeed = 30;
+
+// audio files
 let song = new Audio("sounds/TG7A2DV-fun-walking.mp3")
-song.volume = .3
+song.volume = .1
 let eatingSound = new Audio("sounds/zapsplat_cartoon_bite_munch_003_13094.mp3")
 eatingSound.volume = .4
 let ohNoSound = new Audio("sounds/cartoon_character_high_pitched_voice_says_oh_no.mp3")
@@ -29,7 +31,7 @@ treesRight = [];
 amanitaArray = [];
 boleteArray = [];
 rockArray = [];
-
+poisonIvyToDraw = [];
 // classes
 /* potentioal refactoring for later, but figure out how to do the images then
 class mushroom {
@@ -141,6 +143,27 @@ class player {
     }
 }
 
+
+class poisonIvy {
+    constructor(IvyX, IvyY, Ivywidth, IvyHeigth){
+        this.IvyX = IvyX 
+        this.IvyY =IvyY
+        this.Ivywidth = Ivywidth
+        this.IvyHeigth = IvyHeigth
+    }
+
+    drawIvy() {
+        image(poisonIvyImg, this.IvyX, this.IvyY, this.Ivywidth, this.IvyHeigth);
+
+        this.IvyY = this.IvyY + speedObjects;
+
+        if(this.IvyY > windowHeight ){
+            this.IvyY  =- 500;
+    }
+    }
+}
+
+
 class runningPath {
     constructor(runningPathX, runningPathY, runningPathwidth, runningPathHeigth){
         this.runningPathX = runningPathX 
@@ -168,6 +191,7 @@ function preload(){
     boleteImg = loadImage("images/bolete.png")
     treeImg = loadImage("images/tree.png")
     squirrelImg = loadImage("images/squirrel.png")
+    poisonIvyImg = loadImage("images/clipart2278803.png")
   }
 
 //setup: looping the trees, the mushrooms, and the rocks down the screen
@@ -176,8 +200,6 @@ function setup (){
 
  // loopdieloop the trees
     for(let i = 0; i < 10 ; i++){
-
-        //it's looping the same random pattern over & over, change later?
         treeLeftY = random(windowHeight);
         treeLeftX = random(0, windowwidth * 0.20);   
         treesLeft[i] = new tree(treeLeftX, treeLeftY, 70, 140);
@@ -209,25 +231,14 @@ function setup (){
         rockArray[r] = new rock(rockArrayX, -rockArrayY, 65, 60);
 
     }
+
+     // loopdielopp poison ivy
+     for(let p = 0; p < 1 ; p++){
+        poisonIvyY = random(windowHeight);
+        poisonIvyX = random(0, windowwidth * 0.20); 
+        poisonIvyToDraw[p] = new poisonIvy(poisonIvyX, -poisonIvyY, 100, 100);
+    }
 }
-
-/* a mess
-    //let overlapping = false;
-    //for(let j = 0; j <trees.length; i ++){
-       // let newTreeObj = trees[j];
-        //let distance = dist(treeArrayX, treeArrayY, newTreeObj.x, newTreeObj.y);
-        //if(distance < circle.r + newTreeObj){
-          //  overlapping = true;
-            //break;
-   //     }
-   // }
-    
-  //  if(!overlapping){
-    //    trees.push(tree);
-    //}
-
-//}
-*/
 
 // drawing stuff
 function draw (){
@@ -236,6 +247,7 @@ function draw (){
     runningPath1.drawRunningPath(); 
     playerMustard.drawPlayer();
     
+        
 
 // drawing the amanita and collision statement
     for(let k = 0; k < amanitaArray.length; k++){
@@ -310,7 +322,12 @@ function draw (){
     for(let j = 0; j < treesRight.length; j++){
     treesRight[j].drawtree();
     }
-   
+
+// drawing poosion Ivy
+    for(let p = 0; p < poisonIvyToDraw.length; p++){
+        poisonIvyToDraw[p].drawIvy();
+    }
+
     if (gameIsOver){
         gameOver();
     }
@@ -343,7 +360,6 @@ function keyPressed(){
 
 
 function gameOver(){
-    console.log('game over')
     splashScreen.style.display = 'none';
     gamePlayScreen.style.display = 'none';
     gameOverScreen.style.display = 'flex';

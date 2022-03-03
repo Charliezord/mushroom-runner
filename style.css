@@ -120,16 +120,6 @@ body {
 
 
 
-
-/* .path{
-    width: 42%;
-    height: 100%;
-    background-color: #B77835;
-    position: absolute;
-    display: flex;
-} */
-
-
 /* game over screen */
 
   .game-end-container{
@@ -156,6 +146,7 @@ body {
     color: white;
     text-align: center;
 }
+
 
 @media screen (max-width: 1305px){
     .game-intro-container {
